@@ -13,53 +13,41 @@ import { Card,
 class App extends Component {
   constructor(props) {
     super(props);
-    this.toggle1 = this.toggle1.bind(this);
-    // this.checkCollapse = this.checkCollapse.bind(this)
-
+    this.toggle = this.toggle.bind(this);
+   
     this.state = { 
-      collapse1: true,
-      collapse2: false,
-      collapse3: false,
-      collapse4: false
-      
+      collapse: 0, 
+      cards: [0, 1, 2, 3]   
     }
   }
 
-  checkCollapse() {
-    // this.setState({ collapse1: !this.state.collapse1 })
-    // console.log(this.state)
-    Object.keys(this.state).map( value  => {
-      if(this.state[value]) {
-        // console.log(value)
-        // console.log(this.state[value])
-        const newValue = {
-          value: !this.state[value]
-        }
-        console.log(newValue)
-        this.setState(prevState => ({
-          collapse1: !prevState.collapse1
-        }));
-        return null
-      } else {
-        return null
-      }
-    })
-  }
+  // componentDidUpdate(prevProps, prevState) {
+  //   // console.log(prevState)
+  //   if(prevState){
+  //     console.log('prevState is', prevState)
+      
+  //   }
+  // }
 
-  toggle1() {
-    this.checkCollapse()
+  toggle(e) {
+    // let event = e.target.dataset.event;
+    
+    let event = e.target.dataset.event
+    if(!event) {
+      console.log('event not working')
+    } else {
+      console.log('event working!')
+      this.setState({ 
+          collapse:this.state.collapse === Number(event) ? 0 : Number(event)
+        })
+      }     
+    }
   
-    // this.setState({ collapse1: !this.state.collapse1 })
-  }
-
-  toggle2() {
-    this.checkCollapse()
-    this.setState({ collapse2: !this.state.collapse2 })
-  }
 
   render() {
+    const { collapse } = this.state;
+    console.log(collapse)
     return (
-      
         <div className="App">
           <Container>
             <header className="main-header">
@@ -102,29 +90,36 @@ class App extends Component {
 
                     <div>
                       <div className="d-flex flex-row text-white align-items-stretch text-center">
-                          <div className="port-item p-4 bg-primary" onClick={this.toggle1}
-                            data-target="#home">
-                            <i className="fa fa-home fa-2x d-block"></i>
-                          <span className="d-none d-sm-block">Home</span>
+                        
+                          <div className="port-item p-4 bg-primary" 
+                                data-target="#home" 
+                                onClick={(i, event)=> {this.toggle(i, event)}} data-event="0">
+                              <i className="fa fa-home fa-2x d-block"
+                                onClick={(i, event)=> {this.toggle(i, event)}} data-event="0"
+                              ></i>                            
+                              <span className="d-none d-sm-block" 
+                                onClick={(i, event)=> {this.toggle(i, event)}} data-event="0">
+                                Home
+                              </span>  
                           </div>
                           
-                          <div className="port-item p-4 bg-success" onClick={this.toggle2}
+                          <div className="port-item p-4 bg-success" 
                             data-target="#resume">
                             <i className="fa fa-graduation-cap fa-2x d-block"></i>
-                          <span className="d-none d-sm-block">Resume</span>
+                          <span className="d-none d-sm-block" onClick={(i, event)=> {this.toggle(i, event)}} data-event="1">Resume</span>
                           </div>
                           
-                          <div className="port-item p-4 bg-warning" data-toggle="collapse"
+                          <div className="port-item p-4 bg-warning" 
                             data-target="#work">
                             <i className="fa fa-folder-open fa-2x d-block"></i>
-                          <span className="d-none d-sm-block">Work</span>
+                          <span className="d-none d-sm-block" onClick={(i, event)=> {this.toggle(i, event)}} data-event="2">Work</span>
                           </div>
                           
-                          <div className="port-item p-4 bg-danger" data-toggle="collapse"
+                          <div className="port-item p-4 bg-danger" 
                             data-target="#contact">
                             <i className="fa fa-envelope fa-2x d-block"></i>
-                          <span className="d-none d-sm-block">Contact</span>
-                        </div>
+                          <span className="d-none d-sm-block" onClick={(i, event)=> {this.toggle(i, event)}} data-event="3">Contact</span>
+                          </div>
                       </div>
                     </div>      
                   </div>
@@ -133,7 +128,8 @@ class App extends Component {
             </header>
 
            {/* Home */}
-           <Collapse isOpen={this.state.collapse1} onClick={this.toggle1}>
+           
+           <Collapse isOpen={collapse === 0}>
            <div className="home"> 
               <Card className="bg-primary text-white py-5">
                 <CardBody>
@@ -179,13 +175,42 @@ class App extends Component {
                   </CardBody>
                 </Card>
           </Collapse>
+          
 
           {/* Resume  */}
-          <Collapse isOpen={this.state.collapse2} onClick={this.toggle2}>
+          <Collapse isOpen={collapse === 1}>
             <div className="home"> 
               <Card className="bg-success text-white py-5">
                 <CardBody>
                   <CardTitle>My Resume</CardTitle>
+                  <CardText className="lead">
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil, ut!
+                  </CardText>
+                </CardBody>
+              </Card>
+            </div>
+          </Collapse>
+
+          {/* Work  */}
+          <Collapse isOpen={collapse === 2}>
+            <div className="home"> 
+              <Card className="bg-warning text-white py-5">
+                <CardBody>
+                  <CardTitle>Work</CardTitle>
+                  <CardText className="lead">
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil, ut!
+                  </CardText>
+                </CardBody>
+              </Card>
+            </div>
+          </Collapse>
+
+          {/* Contact  */}
+          <Collapse isOpen={collapse === 3}>
+            <div className="home"> 
+              <Card className="bg-danger text-white py-5">
+                <CardBody>
+                  <CardTitle>Contact</CardTitle>
                   <CardText className="lead">
                     Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil, ut!
                   </CardText>
