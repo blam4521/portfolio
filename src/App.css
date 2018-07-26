@@ -12,10 +12,15 @@
   cursor: pointer;
 }
 
+.move_up {
+  margin-top: 20px;
+}
+
 .bg-black {
   color: #ffffff;
   background: black;
 }
+
 
 @media (min-width: 1199px) {
   .port-item {
